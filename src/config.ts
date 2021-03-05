@@ -1,6 +1,6 @@
 export const urls = {
-  productionApi2: 'http://localhost:3000',
-  productionApi: 'https://protected-bastion-08161.herokuapp.com'
+  productionApi: 'http://localhost:3000',
+  productionApi2: 'https://protected-bastion-08161.herokuapp.com'
 }
 
 export const colors = {

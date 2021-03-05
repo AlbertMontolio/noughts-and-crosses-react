@@ -7,12 +7,12 @@ import { urls } from '../../config'
 import { GameCard } from '../../components/molecules/game-card/GameCard'
 
 const MyGamesWithData = () => {
-  const { myGames: { createdGames, restGames } } = useMyGames()
+  const { myGames: { createdGames, restGames, joinedGames } } = useMyGames()
   console.log('### createdGames', createdGames)
   const { authorize: { backendUserId, authorizeToken } } = useAuthorize()
 
   console.log('my games', createdGames)
-  const createGame = async () => {
+  const createGame = () => {
     const saveGameBackend = async () => {
       const url = `${urls.productionApi}/users/${backendUserId}/games`
 
@@ -35,6 +35,30 @@ const MyGamesWithData = () => {
     backendUserId && authorizeToken && saveGameBackend()
   }
 
+  const joinGame = () => {
+    const gameId = 1
+    const joinGameBackend = async () => {
+      const url = `${urls.productionApi}/games/${gameId}/join`
+
+      try {
+        const response = await fetch(url, {
+          method: 'get',
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization': authorizeToken
+          }
+        })
+
+        const responseData = await response.json()
+        console.log('### joinGameBackend responseData', responseData)
+      } catch (error) {
+        // ### handle error if time
+      }
+    }
+
+    backendUserId && authorizeToken && joinGameBackend()
+  }
+
   return (
     <StyledPage>
       <button onClick={() => createGame()}>
@@ -42,11 +66,28 @@ const MyGamesWithData = () => {
       </button>
       <h1>my created games</h1>
       <div>
-        {createdGames.map((createdGame: any) => <GameCard game={createdGame} />)}
+        {createdGames.map((createdGame: any) => (
+          <GameCard 
+            game={createdGame} 
+          />
+        ))}
+      </div>
+      <h1>joined games</h1>
+      <div>
+        {joinedGames.map((joinedGame: any) => (
+          <GameCard
+            game={joinedGame} 
+          />
+        ))}
       </div>
       <h1>games to join</h1>
       <div>
-        {restGames.map((restGame: any) => <GameCard game={restGame} />)}
+        {restGames.map((restGame: any) => (
+          <GameCard
+            onClick={() => joinGame()}
+            game={restGame} 
+          />
+        ))}
       </div>
     </StyledPage>
   )

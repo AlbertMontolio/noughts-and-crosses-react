@@ -4,9 +4,10 @@ import { NavLink } from 'react-router-dom'
 
 type GameGardProps = {
   game: any
+  onClick?: () => void
 }
 
-const StyleGameCard = styled(NavLink)`
+const StyleGameCard = styled.div`
   display: flex;
   align-items: center;
   border: 1px solid rgb(200,200,200);
@@ -32,13 +33,22 @@ const Date = styled.div`
   margin-left: 10px;
 `
 
-export const GameCard: FunctionComponent<GameGardProps> = ({game}) => {
-  console.log('game', game)
+const Button = styled(NavLink)`
+  background-color: pink;
+  padding: 5px 10px;
+  margin-left: 10px;
+`
+
+export const GameCard: FunctionComponent<GameGardProps> = ({
+  game,
+  onClick
+}) => {
+  console.log('### GameCard game', game)
   // @ts-ignore
   const d = new window.Date(game.createdAt)
   const formattedDate = game.createdAt ? new Intl.DateTimeFormat('en').format(d) : ''
   return (
-    <StyleGameCard to={`/games/${game.id}`}>
+    <StyleGameCard>
       <User>
         {game.creator?.twoLetters}
       </User>
@@ -48,6 +58,9 @@ export const GameCard: FunctionComponent<GameGardProps> = ({game}) => {
       <Date>
         {formattedDate}
       </Date>
+      <Button to={`/games/1`} onClick={onClick}>
+        join
+      </Button>
     </StyleGameCard>
   )
 }
