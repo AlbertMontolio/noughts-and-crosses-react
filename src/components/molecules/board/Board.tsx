@@ -51,51 +51,76 @@ export const Board = () => {
     backendUserId && authorizeToken && saveMoveBackend()
   }
 
-  const [firstSquareValue, setFirstSquarevalue] = useState(false)
-  const [secondSquareValue, setSecondSquarevalue] = useState(false)
+  const [boardValues, setBoardValues] = useState([
+    { posX: 0, posY: 0, value: false },
+    { posX: 0, posY: 1, value: false },
+    { posX: 0, posY: 2, value: false },
+    { posX: 1, posY: 0, value: false },
+    { posX: 1, posY: 1, value: false },
+    { posX: 1, posY: 2, value: false },
+    { posX: 2, posY: 0, value: false },
+    { posX: 2, posY: 1, value: false },
+    { posX: 2, posY: 2, value: false }
+  ])
+  console.log('### boardValues', boardValues)
 
   useEffect(() => {
     if (!moves) { return }
-    const firstMove = moves.filter((move: any) => move.pos_x === 0 && move.pos_y === 0)
-    if (firstMove.length > 0) {
-      setFirstSquarevalue(true)
-    }
-    const secondMove = moves.filter((move: any) => move.pos_x === 0 && move.pos_y === 1)
-    if (secondMove.length > 0) {
-      setSecondSquarevalue(true)
-    }
-    console.log('firstMove', firstMove)
-    console.log('secondMove', secondMove)
+
+    moves.forEach((move: any) => {
+      // ### refactor
+      const newBoardValues = [...boardValues]
+      let newBoardValue = boardValues.find((boardValue: any) => boardValue.posX === move.pos_x && boardValue.posY === move.pos_y)
+
+      if (newBoardValue) {
+        newBoardValue.value = true
+      }
+
+      setBoardValues(newBoardValues)
+    })
   }, [moves])
 
   // ### refactor if time
   return (
     <StyledBoard>
-      <Row>
-        {firstSquareValue && (
-          <Square 
-            wasClicked={firstSquareValue} 
-            saveMove={() => handleOnClick({posX: 0, posY: 0})} 
-          />
-        )}
-        {secondSquareValue && (
-          <Square 
-            wasClicked={secondSquareValue} 
-            saveMove={() => handleOnClick({posX: 0, posY: 1})} 
-          />
-        )}
-        <Square wasClicked={false} saveMove={() => handleOnClick({posX: 0, posY: 2})} />
-      </Row>
-      <Row>
-        <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 0})} />
-        <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 1})} />
-        <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 2})} />
-      </Row>
-      <Row>
-        <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 0})} />
-        <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 1})} />
-        <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 2})} />
-      </Row>
+      {boardValues && (
+        <>
+          <Row>
+            <>
+              {boardValues[0].value === true && (
+                <Square 
+                  wasClicked={boardValues[0].value} 
+                  saveMove={() => handleOnClick({posX: 0, posY: 0})} 
+                />
+              )}
+              {boardValues[0].value === false && (
+                <Square 
+                  wasClicked={false} 
+                  saveMove={() => handleOnClick({posX: 0, posY: 0})} 
+                />
+              )}
+            </>
+            <Square 
+              wasClicked={boardValues[1].value} 
+              saveMove={() => handleOnClick({posX: 0, posY: 1})} 
+            />
+            <Square 
+              wasClicked={boardValues[2].value} 
+              saveMove={() => handleOnClick({posX: 0, posY: 2})} 
+            />
+          </Row>
+          <Row>
+            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 0})} />
+            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 1})} />
+            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 2})} />
+          </Row>
+          <Row>
+            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 0})} />
+            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 1})} />
+            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 2})} />
+          </Row>
+        </>
+      )}
     </StyledBoard>
   )
 }
