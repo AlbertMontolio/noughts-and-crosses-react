@@ -1,9 +1,14 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { 
+  FunctionComponent, 
+  useState,
+  useEffect
+} from 'react'
 import styled from 'styled-components'
 
 type SquareProps = {
   saveMove: () => void
   playerType?: string | undefined
+  wasClicked: boolean
 }
 
 
@@ -20,9 +25,14 @@ const StyledSquare = styled.div<StyledSquareProps>`
 
 export const Square: FunctionComponent<SquareProps> = ({
   saveMove,
-  playerType
+  playerType,
+  wasClicked
 }) => {
   const [isClicked, setIsClicked] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsClicked(wasClicked)
+  }, [])
 
   const handleOnClick = () => {
     saveMove()
