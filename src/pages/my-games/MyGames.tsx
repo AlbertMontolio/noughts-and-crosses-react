@@ -74,9 +74,10 @@ const MyGamesWithData = () => {
       </div>
       <h1>joined games</h1>
       <div>
-        {joinedGames.map((joinedGame: any) => (
+        {joinedGames.map((restGame: any) => (
           <GameCard
-            game={joinedGame} 
+            onClick={() => joinGame()}
+            game={restGame} 
           />
         ))}
       </div>

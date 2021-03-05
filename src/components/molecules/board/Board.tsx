@@ -16,7 +16,7 @@ const Row = styled.div`
 
 export const Board = () => {
   const gameId = 1
-  const { game: { moves } } = useGame()
+  const { game: { moves, creator: { id: creatorId } } } = useGame()
   const { authorize: { backendUserId, authorizeToken } } = useAuthorize()
   const handleOnClick = async ({
     posX, 
@@ -52,17 +52,16 @@ export const Board = () => {
   }
 
   const [boardValues, setBoardValues] = useState([
-    { posX: 0, posY: 0, value: false },
-    { posX: 0, posY: 1, value: false },
-    { posX: 0, posY: 2, value: false },
-    { posX: 1, posY: 0, value: false },
-    { posX: 1, posY: 1, value: false },
-    { posX: 1, posY: 2, value: false },
-    { posX: 2, posY: 0, value: false },
-    { posX: 2, posY: 1, value: false },
-    { posX: 2, posY: 2, value: false }
+    { posX: 0, posY: 0, type: null },
+    { posX: 0, posY: 1, type: null },
+    { posX: 0, posY: 2, type: null },
+    { posX: 1, posY: 0, type: null },
+    { posX: 1, posY: 1, type: null },
+    { posX: 1, posY: 2, type: null },
+    { posX: 2, posY: 0, type: null },
+    { posX: 2, posY: 1, type: null },
+    { posX: 2, posY: 2, type: null }
   ])
-  console.log('### boardValues', boardValues)
 
   useEffect(() => {
     if (!moves) { return }
@@ -70,57 +69,80 @@ export const Board = () => {
     moves.forEach((move: any) => {
       // ### refactor
       const newBoardValues = [...boardValues]
-      let newBoardValue = boardValues.find((boardValue: any) => boardValue.posX === move.pos_x && boardValue.posY === move.pos_y)
+      console.log('### move', move)
+      let newBoardValue = boardValues.find((boardValue: any) => boardValue.posX === move.posX && boardValue.posY === move.posY)
 
+      console.log('### newBoardValue', newBoardValue)
       if (newBoardValue) {
-        newBoardValue.value = true
+        newBoardValue.type = move.type
       }
 
       setBoardValues(newBoardValues)
     })
   }, [moves])
 
+  const [isCreator, setIsCreator] = useState(false)
+
+  useEffect(() => {
+    if (creatorId === backendUserId) {
+      setIsCreator(true)
+    }
+  }, [creatorId, backendUserId])
+
   // ### refactor if time
   return (
     <StyledBoard>
-      {boardValues && (
-        <>
-          <Row>
-            <>
-              {boardValues[0].value === true && (
-                <Square 
-                  wasClicked={boardValues[0].value} 
-                  saveMove={() => handleOnClick({posX: 0, posY: 0})} 
-                />
-              )}
-              {boardValues[0].value === false && (
-                <Square 
-                  wasClicked={false} 
-                  saveMove={() => handleOnClick({posX: 0, posY: 0})} 
-                />
-              )}
-            </>
-            <Square 
-              wasClicked={boardValues[1].value} 
-              saveMove={() => handleOnClick({posX: 0, posY: 1})} 
-            />
-            <Square 
-              wasClicked={boardValues[2].value} 
-              saveMove={() => handleOnClick({posX: 0, posY: 2})} 
-            />
-          </Row>
-          <Row>
-            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 0})} />
-            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 1})} />
-            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 1, posY: 2})} />
-          </Row>
-          <Row>
-            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 0})} />
-            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 1})} />
-            <Square wasClicked={false} saveMove={() => handleOnClick({posX: 2, posY: 2})} />
-          </Row>
-        </>
-      )}
+      <Row>
+        <Square
+          isCreator={isCreator}
+          type={boardValues[0].type}
+          saveMove={() => handleOnClick({posX: 0, posY: 0})} 
+        />
+        <Square
+          isCreator={isCreator}
+          type={boardValues[1].type}
+          saveMove={() => handleOnClick({posX: 0, posY: 1})} 
+        />
+        <Square
+          isCreator={isCreator}
+          type={boardValues[2].type}
+          saveMove={() => handleOnClick({posX: 0, posY: 2})} 
+        />
+      </Row>
+      <Row>
+        <Square
+          isCreator={isCreator}
+          type={boardValues[3].type}
+          saveMove={() => handleOnClick({posX: 1, posY: 0})} 
+        />
+        <Square 
+          isCreator={isCreator}
+          type={boardValues[4].type}
+          saveMove={() => handleOnClick({posX: 1, posY: 1})} 
+        />
+        <Square 
+          isCreator={isCreator}
+          type={boardValues[5].type}
+          saveMove={() => handleOnClick({posX: 1, posY: 2})} 
+        />
+      </Row>
+      <Row>
+        <Square 
+          isCreator={isCreator}
+          type={boardValues[6].type}
+          saveMove={() => handleOnClick({posX: 2, posY: 0})} 
+        />
+        <Square 
+          isCreator={isCreator}
+          type={boardValues[7].type}
+          saveMove={() => handleOnClick({posX: 2, posY: 1})} 
+        />
+        <Square 
+          isCreator={isCreator}
+          type={boardValues[8].type}
+          saveMove={() => handleOnClick({posX: 2, posY: 2})} 
+        />
+      </Row>
     </StyledBoard>
   )
 }

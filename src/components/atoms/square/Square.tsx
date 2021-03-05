@@ -7,43 +7,75 @@ import styled from 'styled-components'
 
 type SquareProps = {
   saveMove: () => void
-  playerType?: string | undefined
-  wasClicked: boolean
+  type: string | null
+  isCreator: boolean
 }
 
 
 type StyledSquareProps = {
-  isClicked: boolean
+  isClicked?: boolean
+  isUserCreator?: boolean
+  colorFullSquare?: string
+  fullColor?: string
+  clickedColor?: string
 }
 
-const StyledSquare = styled.div<StyledSquareProps>`
+const StyledSquare = styled.div`
+  border-radius: 3px;
+`
+
+const FullSquare = styled.div<StyledSquareProps>`
   width: 70px;
   height: 70px;
-  background-color: ${({isClicked}) => isClicked ? 'orange' : 'white'};
+  background-color: ${({colorFullSquare}) => colorFullSquare};
+  border: 1px solid rgb(100,100,100);
+`
+
+const EmptySquare = styled.div<StyledSquareProps>`
+  width: 70px;
+  height: 70px;
+  background-color: ${({clickedColor}) => clickedColor };
   border: 1px solid rgb(100,100,100);
 `
 
 export const Square: FunctionComponent<SquareProps> = ({
   saveMove,
-  playerType,
-  wasClicked
+  type,
+  isCreator
 }) => {
-  const [isClicked, setIsClicked] = useState<boolean>(false)
+  const [clickedColor, setClickedColor] = useState('white')
+  let colorFullSquare = 'white'
 
-  useEffect(() => {
-    setIsClicked(wasClicked)
-  }, [])
-
-  const handleOnClick = () => {
-    saveMove()
-    // ### independent if call fails...
-    setIsClicked(true) 
+  if (type === 'cross') {
+    colorFullSquare = 'orange'
   }
 
+  if (type === 'nought') {
+    colorFullSquare = 'green'
+  }
+
+  console.log('colorFullSquare', colorFullSquare)
+  const handleOnClick = () => {
+    console.log('clickinggggg')
+    saveMove()
+    // ### independent if call fails...
+    setClickedColor(isCreator ? 'orange' : 'green')
+  }
+
+
   return (
-    <StyledSquare
-      isClicked={isClicked}
-      onClick={() => handleOnClick()}
-    />
+    <StyledSquare>
+      {type && (
+        <FullSquare 
+          colorFullSquare={colorFullSquare} 
+        />
+      )}
+      {!type && clickedColor && (
+        <EmptySquare
+          clickedColor={clickedColor}
+          onClick={() => handleOnClick()} 
+        />
+      )}
+    </StyledSquare>
   )
 }

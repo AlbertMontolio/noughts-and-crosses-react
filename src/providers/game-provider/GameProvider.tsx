@@ -11,7 +11,12 @@ import { useAuthorize } from '../../providers/authorize-provider/AuthorizeProvid
 
 const GameContext = createContext<any>([])
 
-const GameInitState = {}
+const GameInitState = {
+  moves: [],
+  creator: {
+    id: 0
+  }
+}
 
 export const GameProvider: FunctionComponent = ({
   children
