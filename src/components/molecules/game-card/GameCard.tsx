@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 
 type GameGardProps = {
   game: any
 }
 
-const StyleGameCard = styled.div`
+const StyleGameCard = styled(NavLink)`
   display: flex;
   align-items: center;
   border: 1px solid rgb(200,200,200);
@@ -37,7 +38,7 @@ export const GameCard: FunctionComponent<GameGardProps> = ({game}) => {
   const d = new window.Date(game.createdAt)
   const formattedDate = game.createdAt ? new Intl.DateTimeFormat('en').format(d) : ''
   return (
-    <StyleGameCard>
+    <StyleGameCard to={`/games/${game.id}`}>
       <User>
         {game.creator?.twoLetters}
       </User>
