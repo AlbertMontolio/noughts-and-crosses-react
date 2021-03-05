@@ -1,21 +1,39 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 
 type SquareProps = {
-  onClick: () => void
+  saveMove: () => void
+  playerType?: string | undefined
 }
 
-const StyledSquare = styled.div`
+
+type StyledSquareProps = {
+  isClicked: boolean
+}
+
+const StyledSquare = styled.div<StyledSquareProps>`
   width: 70px;
   height: 70px;
-  background-color: rgb(220,220,200);
+  background-color: ${({isClicked}) => isClicked ? 'orange' : 'white'};
   border: 1px solid rgb(100,100,100);
 `
 
-export const Square: FunctionComponent<SquareProps> = ({onClick}) => {
+export const Square: FunctionComponent<SquareProps> = ({
+  saveMove,
+  playerType
+}) => {
+  const [isClicked, setIsClicked] = useState<boolean>(false)
+
+  const handleOnClick = () => {
+    saveMove()
+    // ### independent if call fails...
+    setIsClicked(true) 
+  }
+
   return (
-    <StyledSquare onClick={() => onClick()}>
-      square
-    </StyledSquare>
+    <StyledSquare
+      isClicked={isClicked}
+      onClick={() => handleOnClick()}
+    />
   )
 }

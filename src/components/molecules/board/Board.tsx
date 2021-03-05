@@ -23,7 +23,7 @@ export const Board = () => {
     posX: number,
     posY: number
   }) => {
-    const saveGameBackend = async () => {
+    const saveMoveBackend = async () => {
       const url = `${urls.productionApi}/games/${gameId}/moves`
 
       try {
@@ -46,26 +46,26 @@ export const Board = () => {
       }
     }
 
-    backendUserId && authorizeToken && saveGameBackend()
+    backendUserId && authorizeToken && saveMoveBackend()
   }
 
   // ### refactor if time
   return (
     <StyledBoard>
       <Row>
-        <Square onClick={() => handleOnClick({posX: 0, posY: 0})} />
-        <Square onClick={() => handleOnClick({posX: 0, posY: 1})} />
-        <Square onClick={() => handleOnClick({posX: 0, posY: 2})} />
+        <Square saveMove={() => handleOnClick({posX: 0, posY: 0})} />
+        <Square saveMove={() => handleOnClick({posX: 0, posY: 1})} />
+        <Square saveMove={() => handleOnClick({posX: 0, posY: 2})} />
       </Row>
       <Row>
-        <Square onClick={() => handleOnClick({posX: 1, posY: 0})} />
-        <Square onClick={() => handleOnClick({posX: 1, posY: 1})} />
-        <Square onClick={() => handleOnClick({posX: 1, posY: 2})} />
+        <Square saveMove={() => handleOnClick({posX: 1, posY: 0})} />
+        <Square saveMove={() => handleOnClick({posX: 1, posY: 1})} />
+        <Square saveMove={() => handleOnClick({posX: 1, posY: 2})} />
       </Row>
       <Row>
-        <Square onClick={() => handleOnClick({posX: 2, posY: 0})} />
-        <Square onClick={() => handleOnClick({posX: 2, posY: 1})} />
-        <Square onClick={() => handleOnClick({posX: 2, posY: 2})} />
+        <Square saveMove={() => handleOnClick({posX: 2, posY: 0})} />
+        <Square saveMove={() => handleOnClick({posX: 2, posY: 1})} />
+        <Square saveMove={() => handleOnClick({posX: 2, posY: 2})} />
       </Row>
     </StyledBoard>
   )
