@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
 import  RightNavbar from '../right-navbar/RightNavbar'
+import { useAuthorize } from '../../../providers/authorize-provider/AuthorizeProvider'
 
 const PositionWrapper = styled.div`
 	position: fixed;
@@ -34,12 +35,14 @@ const StyledTopNavbar = styled.div`
 `
 
 export const TopNavbar = () => {
+  const { authorize: { email } } = useAuthorize()
+
   return (
     <PositionWrapper>
       <StyledTopNavbar>
         <StyledLogo to='/'>
           <Text>
-            Home
+            Home {email && email.slice(0,2)}
           </Text>
         </StyledLogo>
         <RightNavbar />

@@ -68,7 +68,8 @@ export const LogIn: FunctionComponent<SignInFormProps> = ({history}) => {
             // @ts-ignore
             ...authorize, 
             authorizeToken: json.authorization_token, 
-            backendUserId: json.backendUserId
+            backendUserId: json.backendUserId,
+            email: json.email
           })
     
           // @ts-ignore

@@ -11,21 +11,28 @@ import { useAuthorize } from '../../providers/authorize-provider/AuthorizeProvid
 
 const MyGamesContext = createContext<any>([])
 
+const MyGamesInitState = {
+  createdGames: [],
+  joinedGames: [],
+  restGames: []
+}
+
 export const MyGamesProvider: FunctionComponent = ({
   children
 }) => {
-  const { authorize: { backendUserId } } = useAuthorize()
+  const { authorize: { backendUserId, authorizeToken } } = useAuthorize()
   console.log('### backendUserId', backendUserId)
-  const [myGames, setMyGames] = useState([])
-
+  const [myGames, setMyGames] = useState(MyGamesInitState)
+  console.log('myGames', myGames)
   const fetchData = async () => {
-    const url = `${urls.productionApi}/users/${backendUserId}/my_games`
+    const url = `${urls.productionApi}/users/${backendUserId}/games`
 
     try {
       const response = await fetch(url, {
         method: 'get',
         headers: {
-          'Content-type': 'application/json'
+          'Content-type': 'application/json',
+          'Authorization': authorizeToken
         }
       })
       const responseData = await response.json()
@@ -35,6 +42,9 @@ export const MyGamesProvider: FunctionComponent = ({
       console.log('error', error)
     }
   }
+
+  
+
 
   useEffect(() => {
     fetchData()

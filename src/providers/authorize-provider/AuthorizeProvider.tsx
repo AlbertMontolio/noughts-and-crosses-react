@@ -8,7 +8,8 @@ import React, {
 
 export const authorizeInitialState = {
   authorizeToken: '',
-  backendUserId: ''
+  backendUserId: '',
+  email: ''
 }
 const AuthorizeContext = createContext(authorizeInitialState)
 // @ts-ignore
