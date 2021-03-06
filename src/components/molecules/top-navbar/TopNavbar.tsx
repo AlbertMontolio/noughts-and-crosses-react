@@ -42,7 +42,7 @@ export const TopNavbar = () => {
       <StyledTopNavbar>
         <StyledLogo to='/'>
           <Text>
-            Home {email && email.slice(0,2)}
+            {email}
           </Text>
         </StyledLogo>
         <RightNavbar />

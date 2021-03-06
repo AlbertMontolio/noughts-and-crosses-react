@@ -7,6 +7,7 @@ import { useAuthenticate } from '../../providers/authenticate-provider/Authentic
 import { useAuthorize } from '../../providers/authorize-provider/AuthorizeProvider'
 import { useUser } from '../../providers/user-provider/UserProvider'
 import { StyledPage } from '../../components/atoms/styled-page/StyledPage'
+import { useHistory } from "react-router-dom"
 
 const Inputs = styled.div`
   display: flex;
@@ -24,16 +25,11 @@ const Label = styled.div`
   margin-bottom: 5px;
 `
 
-type SignInFormProps = {
-  history: any
-}
-
-export const LogIn: FunctionComponent<SignInFormProps> = ({history}) => {
+export const LogIn: FunctionComponent = () => {
+  const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { authenticate, setAuthenticate } = useAuthenticate()
   const { authorize, setAuthorize } = useAuthorize()
-  const { setUser, user } = useUser()
 
   const handleOnSubmit = () => {
     const signInBackend = async () => {
@@ -52,17 +48,7 @@ export const LogIn: FunctionComponent<SignInFormProps> = ({history}) => {
         })
         const json = await response.json()
   
-        console.log('json>>>', json)
-  
         if (json.authorization_token) {
-          // @ts-ignore
-          // ### TODO: remove provider
-          setAuthenticate({
-            // @ts-ignore
-            ...authenticate, 
-            authenticateToken: response.accessToken
-          })
-    
           // @ts-ignore
           setAuthorize({
             // @ts-ignore
@@ -71,18 +57,8 @@ export const LogIn: FunctionComponent<SignInFormProps> = ({history}) => {
             backendUserId: json.backendUserId,
             email: json.email
           })
-    
-          // @ts-ignore
-          setUser({
-            // @ts-ignore
-            ...user,
-            firstName: json.first_name,
-            lastName: json.last_name,
-            email: json.email
-          })
-  
-          console.log('about to push my games')
-          history.push(`/my-games`)
+
+          history.push('/my-games')
         } else {
           console.log('something went wrong')
         }
@@ -103,10 +79,10 @@ export const LogIn: FunctionComponent<SignInFormProps> = ({history}) => {
         <Label>
           password
         </Label>
-        <StyledInput onChange={(e) => setPassword(e.target.value)} />
+        <StyledInput type='password' onChange={(e) => setPassword(e.target.value)} />
       </Inputs>
       <Button 
-        variant="contained" 
+        variant='contained' 
         onClick={() => handleOnSubmit()}
       >
         LOG IN

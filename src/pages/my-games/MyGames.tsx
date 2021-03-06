@@ -1,17 +1,28 @@
 import React from 'react'
+import styled from 'styled-components'
 import { StyledPage } from '../../components/atoms/styled-page/StyledPage'
 
 import { useMyGames, MyGamesProvider } from '../../providers/my-games-provider/MyGamesProvider'
 import { useAuthorize } from '../../providers/authorize-provider/AuthorizeProvider'
 import { urls } from '../../config'
 import { GameCard } from '../../components/molecules/game-card/GameCard'
+import Button from '@material-ui/core/Button'
+import { useHistory } from "react-router-dom"
+
+const StyledCreateGameBtn = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+`
 
 const MyGamesWithData = () => {
+  const history = useHistory()
   const { myGames: { createdGames, restGames, joinedGames } } = useMyGames()
-  console.log('### createdGames', createdGames)
   const { authorize: { backendUserId, authorizeToken } } = useAuthorize()
 
-  console.log('my games', createdGames)
+  // ### move to provider or actions
   const createGame = () => {
     const saveGameBackend = async () => {
       const url = `${urls.productionApi}/users/${backendUserId}/games`
@@ -26,7 +37,9 @@ const MyGamesWithData = () => {
         })
 
         const responseData = await response.json()
-        console.log('### createGame responseData', responseData)
+        const { gameId } = responseData
+
+        history.push(`/games/${gameId}`)
       } catch (error) {
         // ### handle error if time
       }
@@ -35,6 +48,7 @@ const MyGamesWithData = () => {
     backendUserId && authorizeToken && saveGameBackend()
   }
 
+  // ### move to provider or actions
   const joinGame = () => {
     const gameId = 1
     const joinGameBackend = async () => {
@@ -50,7 +64,6 @@ const MyGamesWithData = () => {
         })
 
         const responseData = await response.json()
-        console.log('### joinGameBackend responseData', responseData)
       } catch (error) {
         // ### handle error if time
       }
@@ -61,10 +74,12 @@ const MyGamesWithData = () => {
 
   return (
     <StyledPage>
-      <button onClick={() => createGame()}>
-        create game
-      </button>
-      <h1>my created games</h1>
+      <StyledCreateGameBtn>
+        <Button variant='contained'  onClick={() => createGame()}>
+          create game
+        </Button>
+      </StyledCreateGameBtn>
+      <h3>my created games</h3>
       <div>
         {createdGames.map((createdGame: any) => (
           <GameCard 
@@ -72,7 +87,7 @@ const MyGamesWithData = () => {
           />
         ))}
       </div>
-      <h1>joined games</h1>
+      <h3>joined games</h3>
       <div>
         {joinedGames.map((restGame: any) => (
           <GameCard
@@ -81,7 +96,7 @@ const MyGamesWithData = () => {
           />
         ))}
       </div>
-      <h1>games to join</h1>
+      <h3>games to join</h3>
       <div>
         {restGames.map((restGame: any) => (
           <GameCard

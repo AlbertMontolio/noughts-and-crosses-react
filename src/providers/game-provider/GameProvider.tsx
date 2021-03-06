@@ -14,7 +14,12 @@ const GameContext = createContext<any>([])
 const GameInitState = {
   moves: [],
   creator: {
-    id: 0
+    id: 0,
+    email: ''
+  },
+  joiner: {
+    id: 0,
+    email: ''
   }
 }
 
