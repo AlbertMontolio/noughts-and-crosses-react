@@ -19,6 +19,7 @@ export const Board = () => {
   const history = useHistory()
   const { game: { moves, creator: { id: creatorId }, id: gameId } } = useGame()
   const { authorize: { backendUserId, authorizeToken } } = useAuthorize()
+  const [isDraw, setIsDraw] = useState(false)
   const handleOnClick = async ({
     posX, 
     posY
@@ -84,6 +85,10 @@ export const Board = () => {
 
       setBoardValues(newBoardValues)
     })
+
+    if (moves.length === 9) {
+      setIsDraw(true)
+    }
   }, [moves])
 
   const [isCreator, setIsCreator] = useState(false)
@@ -148,6 +153,11 @@ export const Board = () => {
           saveMove={() => handleOnClick({posX: 1, posY: -1})} 
         />
       </Row>
+      {isDraw && (
+        <div>
+          this is a draw
+        </div>
+      )}
     </StyledBoard>
   )
 }
