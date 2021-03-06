@@ -52,15 +52,15 @@ export const Board = () => {
   }
 
   const [boardValues, setBoardValues] = useState([
-    { posX: 0, posY: 0, type: null },
+    { posX: -1, posY: 1, type: null },
     { posX: 0, posY: 1, type: null },
-    { posX: 0, posY: 2, type: null },
-    { posX: 1, posY: 0, type: null },
     { posX: 1, posY: 1, type: null },
-    { posX: 1, posY: 2, type: null },
-    { posX: 2, posY: 0, type: null },
-    { posX: 2, posY: 1, type: null },
-    { posX: 2, posY: 2, type: null }
+    { posX: -1, posY: 0, type: null },
+    { posX: 0, posY: 0, type: null },
+    { posX: 1, posY: 0, type: null },
+    { posX: -1, posY: -1, type: null },
+    { posX: 0, posY: -1, type: null },
+    { posX: 1, posY: -1, type: null }
   ])
 
   useEffect(() => {
@@ -96,51 +96,51 @@ export const Board = () => {
         <Square
           isCreator={isCreator}
           type={boardValues[0].type}
-          saveMove={() => handleOnClick({posX: 0, posY: 0})} 
+          saveMove={() => handleOnClick({posX: -1, posY: +1})} 
         />
         <Square
           isCreator={isCreator}
           type={boardValues[1].type}
-          saveMove={() => handleOnClick({posX: 0, posY: 1})} 
+          saveMove={() => handleOnClick({posX: 0, posY: +1})} 
         />
         <Square
           isCreator={isCreator}
           type={boardValues[2].type}
-          saveMove={() => handleOnClick({posX: 0, posY: 2})} 
+          saveMove={() => handleOnClick({posX: 1, posY: +1})} 
         />
       </Row>
       <Row>
         <Square
           isCreator={isCreator}
           type={boardValues[3].type}
-          saveMove={() => handleOnClick({posX: 1, posY: 0})} 
+          saveMove={() => handleOnClick({posX: -1, posY: 0})} 
         />
         <Square 
           isCreator={isCreator}
           type={boardValues[4].type}
-          saveMove={() => handleOnClick({posX: 1, posY: 1})} 
+          saveMove={() => handleOnClick({posX: 0, posY: 0})} 
         />
         <Square 
           isCreator={isCreator}
           type={boardValues[5].type}
-          saveMove={() => handleOnClick({posX: 1, posY: 2})} 
+          saveMove={() => handleOnClick({posX: 1, posY: 0})} 
         />
       </Row>
       <Row>
         <Square 
           isCreator={isCreator}
           type={boardValues[6].type}
-          saveMove={() => handleOnClick({posX: 2, posY: 0})} 
+          saveMove={() => handleOnClick({posX: -1, posY: -1})} 
         />
         <Square 
           isCreator={isCreator}
           type={boardValues[7].type}
-          saveMove={() => handleOnClick({posX: 2, posY: 1})} 
+          saveMove={() => handleOnClick({posX: 0, posY: -1})} 
         />
         <Square 
           isCreator={isCreator}
           type={boardValues[8].type}
-          saveMove={() => handleOnClick({posX: 2, posY: 2})} 
+          saveMove={() => handleOnClick({posX: 1, posY: -1})} 
         />
       </Row>
     </StyledBoard>
