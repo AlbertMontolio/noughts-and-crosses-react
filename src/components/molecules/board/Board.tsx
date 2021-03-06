@@ -5,7 +5,7 @@ import { Square } from '../../atoms/square/Square'
 import { urls } from '../../../config'
 import { useAuthorize } from '../../../providers/authorize-provider/AuthorizeProvider'
 import { useGame } from '../../../providers/game-provider/GameProvider'
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 
 const StyledBoard = styled.div`
 `
@@ -17,8 +17,7 @@ const Row = styled.div`
 
 export const Board = () => {
   const history = useHistory()
-  const gameId = 1
-  const { game: { moves, creator: { id: creatorId } } } = useGame()
+  const { game: { moves, creator: { id: creatorId }, id: gameId } } = useGame()
   const { authorize: { backendUserId, authorizeToken } } = useAuthorize()
   const handleOnClick = async ({
     posX, 
@@ -45,6 +44,7 @@ export const Board = () => {
 
         const responseData = await response.json()
         const { isWinner } = responseData
+        console.log('isWinner', isWinner)
         if (isWinner) {
           history.push('/congratulations')
         }

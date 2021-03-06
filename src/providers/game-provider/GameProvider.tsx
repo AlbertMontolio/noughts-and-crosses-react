@@ -23,10 +23,14 @@ const GameInitState = {
   }
 }
 
-export const GameProvider: FunctionComponent = ({
-  children
+type GameProviderProps = {
+  gameId: number
+}
+
+export const GameProvider: FunctionComponent<GameProviderProps> = ({
+  children,
+  gameId
 }) => {
-  const gameId = 1
   const { authorize: { backendUserId, authorizeToken } } = useAuthorize()
   console.log('### backendUserId', backendUserId)
   const [game, setGame] = useState(GameInitState)

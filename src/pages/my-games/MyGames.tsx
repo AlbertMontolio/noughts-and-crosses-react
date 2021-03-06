@@ -49,8 +49,7 @@ const MyGamesWithData = () => {
   }
 
   // ### move to provider or actions
-  const joinGame = () => {
-    const gameId = 1
+  const joinGame = ({gameId}: any) => {
     const joinGameBackend = async () => {
       const url = `${urls.productionApi}/games/${gameId}/join`
 
@@ -89,10 +88,10 @@ const MyGamesWithData = () => {
       </div>
       <h3>joined games</h3>
       <div>
-        {joinedGames.map((restGame: any) => (
+        {joinedGames.map((joinedGame: any) => (
           <GameCard
-            onClick={() => joinGame()}
-            game={restGame} 
+            onClick={() => joinGame({gameId: joinedGame.id})}
+            game={joinedGame} 
           />
         ))}
       </div>
@@ -100,7 +99,7 @@ const MyGamesWithData = () => {
       <div>
         {restGames.map((restGame: any) => (
           <GameCard
-            onClick={() => joinGame()}
+            onClick={() => joinGame({gameId: restGame.id})}
             game={restGame} 
           />
         ))}

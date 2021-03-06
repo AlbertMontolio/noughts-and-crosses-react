@@ -4,6 +4,7 @@ import { StyledPage } from '../../components/atoms/styled-page/StyledPage'
 import { Board } from '../../components/molecules/board/Board'
 import { GameProvider, useGame } from '../../providers/game-provider/GameProvider'
 import { Header } from './Header'
+import { useParams } from "react-router-dom"
 
 const StyledBoard = styled.div`
   width: 100%;
@@ -25,8 +26,12 @@ const GameWithData = () => {
 }
 
 export const Game = () => {
+  // @ts-ignore
+  const { gameId } = useParams()
+  console.log('gameId', gameId)
+
   return (
-    <GameProvider>
+    <GameProvider gameId={gameId}>
       <GameWithData />
     </GameProvider>
   )

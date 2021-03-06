@@ -69,7 +69,7 @@ export const GameCard: FunctionComponent<GameGardProps> = ({
           {formattedDate}
         </Date>
       </Left>
-      <Button to={`/games/1`} onClick={onClick}>
+      <Button to={`/games/${game.id}`} onClick={onClick}>
         join
       </Button>
     </StyleGameCard>
