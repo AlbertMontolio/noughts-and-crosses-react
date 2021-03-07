@@ -5,6 +5,7 @@ notes
 - finish all typescript types, I add any just to compile
 
 tests:
+- check that functions and lines are covered with jest --coverage
 - for every component add a snapshot
 - write specs for components that have logic
 - write tests for all the providers
